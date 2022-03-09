@@ -1,5 +1,6 @@
 # Default ignored files
-/auth.json/
+/node_modules/
+/auth.json
 /shelf/
 /workspace.xml
 # Editor-based HTTP Client requests

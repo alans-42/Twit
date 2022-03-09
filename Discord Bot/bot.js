@@ -24,8 +24,8 @@ bot.on('ready', function () {
 
 bot.on('message', function (user, userID, channelID, message) {
 if (message.substring(0, 5) == '~twit') {
-    var args = message.substring(1).split(' ');
-    var cmd = args[1];
+    const args = message.substring(1).split(' ');
+    const cmd = args[1];
 
     switch(cmd) {
         //~twit help
@@ -49,8 +49,8 @@ if (message.substring(0, 5) == '~twit') {
         case 'get':
             T.get('search/tweets', {q: args[2], count: 1}, returnMessage);
             function returnMessage(err, data){
-                var tweets = data.statuses;
-                var finalTweets = ""
+                const tweets = data.statuses;
+                let finalTweets = "";
                 for(var i = 0; i < tweets.length; i++){
                     finalTweets += tweets[i].text
                 }

@@ -18,11 +18,11 @@ const bot = new Discord.Client({
     autorun: true
 });
 
-bot.on('ready', function ( evt) {
+bot.on('ready', function () {
     console.log("Logged in as " + bot.username + " Id: "+ bot.id)
 });
 
-bot.on('message', function (user, userID, channelID, message, evt) {
+bot.on('message', function (user, userID, channelID, message) {
 if (message.substring(0, 5) == '~twit') {
     var args = message.substring(1).split(' ');
     var cmd = args[1];
@@ -48,7 +48,7 @@ if (message.substring(0, 5) == '~twit') {
         //~twit get
         case 'get':
             T.get('search/tweets', {q: args[2], count: 1}, returnMessage);
-            function returnMessage(err, data, response){
+            function returnMessage(err, data){
                 var tweets = data.statuses;
                 var finalTweets = ""
                 for(var i = 0; i < tweets.length; i++){
@@ -58,8 +58,6 @@ if (message.substring(0, 5) == '~twit') {
                     to: channelID,
                     message: finalTweets
                 });
-                finalTweets = ""
-                tweets = ""
             }
             break;
      }

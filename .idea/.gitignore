@@ -1,4 +1,5 @@
 # Default ignored files
+/auth.json/
 /shelf/
 /workspace.xml
 # Editor-based HTTP Client requests

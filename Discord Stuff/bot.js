@@ -2,9 +2,8 @@ const Discord = require('discord.io');
 const logger = require('winston');
 const auth = require('./auth.json');
 const Twit = require('twit');
-const tokens = require('./tokens.js');
 
-const T = new Twit(tokens);
+const T = new Twit(auth.keys);
 
 // Configure logger settings
 logger.remove(logger.transports.Console);

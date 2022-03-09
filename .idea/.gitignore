@@ -1,6 +1,4 @@
 # Default ignored files
-/node_modules/
-/auth.json
 /shelf/
 /workspace.xml
 # Editor-based HTTP Client requests
@@ -8,3 +6,6 @@
 # Datasource local storage ignored files
 /dataSources/
 /dataSources.local.xml
+#Files I want ignored
+/auth.json
+/node_modules/

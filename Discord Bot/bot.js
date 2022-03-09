@@ -1,7 +1,11 @@
-const Discord = require('discord.io');
-const logger = require('winston');
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
 const auth = require('./auth.json');
-const Twit = require('twit');
+
+import Discord from 'discord.io';
+import logger from 'winston';
+import Twit from 'twit';
+import {franc} from 'franc'
 
 const T = new Twit(auth.keys);
 
@@ -18,12 +22,27 @@ const bot = new Discord.Client({
     autorun: true
 });
 
+//Shuffles an array
+function shuffle(array) {
+    let currentIndex = array.length,  randomIndex;
+    // While there remain elements to shuffle...
+    while (currentIndex !== 0) {
+        // Pick a remaining element...
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
+        // And swap it with the current element.
+        [array[currentIndex], array[randomIndex]] = [
+            array[randomIndex], array[currentIndex]];
+    }
+    return array;
+}
+
 bot.on('ready', function () {
     console.log("Logged in as " + bot.username + " Id: "+ bot.id)
 });
 
 bot.on('message', function (user, userID, channelID, message) {
-if (message.substring(0, 5) == '~twit') {
+if (message.substring(0, 5) === '~twit') {
     const args = message.substring(1).split(' ');
     const cmd = args[1];
 
@@ -32,10 +51,11 @@ if (message.substring(0, 5) == '~twit') {
         case 'help':
             bot.sendMessage({
                 to: channelID,
-                message:"**Here's what I can do:**\n" +
-                        "*help* - Say this again\n" +
-                        "*sup* - Respond to you\n" +
-                        "*Make sure to use* '~twit [Command]'"
+                message:"**Here's What I Can Do:**\n" +
+                        "*help* - Say This Again\n" +
+                        "*sup* - Respond To You\n" +
+                        "*get [Search Word]* - Replies With a Tweet\n" +
+                        "*Make sure to use* '~twit [Command]'\n"
             });
             break;
         //~twit sup
@@ -47,16 +67,19 @@ if (message.substring(0, 5) == '~twit') {
             break;
         //~twit get
         case 'get':
-            T.get('search/tweets', {q: args[2], count: 1}, returnMessage);
+            T.get('search/tweets', {q: args[2], count: 25}, returnMessage);
             function returnMessage(err, data){
                 const tweets = data.statuses;
-                let finalTweets = "";
-                for(var i = 0; i < tweets.length; i++){
-                    finalTweets += tweets[i].text
+                let tweetsMap = [];
+                for(let i = 0; i < tweets.length; i++){
+                    if(franc(tweets[i].text) === "eng"){
+                        tweetsMap.push(tweets[i])
+                    }
                 }
+                tweetsMap = shuffle(tweetsMap)
                 bot.sendMessage({
                     to: channelID,
-                    message: finalTweets
+                    message: "**" + tweetsMap[0].user.name + " (" + tweetsMap[0].user.screen_name + ") tweeted:**\n" + tweetsMap[0].text
                 });
             }
             break;

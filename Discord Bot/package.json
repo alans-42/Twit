@@ -3,9 +3,11 @@
   "version": "1.0.0",
   "description": "Tweet Bot",
   "main": "bot.js",
+  "type": "module",
   "author": "Alan Soto",
   "dependencies": {
     "discord.io": "https://github.com/woor/discord.io/tarball/gateway_v6",
+    "franc": "^6.0.0",
     "twit": "^2.2.11",
     "winston": "^3.6.0"
   }

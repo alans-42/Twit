@@ -39,6 +39,8 @@ function shuffle(array) {
 
 bot.on('ready', function () {
     console.log("Logged in as " + bot.username + " Id: "+ bot.id)
+    bot.setPresence({game: {name: "~twit"}})
+    console.log("Press 'Ctr + C' to end")
 });
 
 bot.on('message', function (user, userID, channelID, message) {
@@ -77,10 +79,18 @@ if (message.substring(0, 5) === '~twit') {
                     }
                 }
                 tweetsMap = shuffle(tweetsMap)
-                bot.sendMessage({
-                    to: channelID,
-                    message: "**" + tweetsMap[0].user.name + " (" + tweetsMap[0].user.screen_name + ") tweeted:**\n" + tweetsMap[0].text
-                });
+                if(tweetsMap.length !== 0){
+                    bot.sendMessage({
+                        to: channelID,
+                        message: "**" + tweetsMap[0].user.name + " (" + tweetsMap[0].user.screen_name + ") tweeted:**\n" + tweetsMap[0].text
+                    });
+                }
+                else{
+                    bot.sendMessage({
+                       to: channelID,
+                       message: "Sorry no tweets"
+                    });
+                }
             }
             break;
      }
